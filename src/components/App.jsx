@@ -3,17 +3,18 @@ import React from 'react';
 
 import { PhoneBook } from './PhoneBook/PhoneBook';
 import { ContactsList } from './ContactsList/ContactsList';
-import { ContactsTitle } from './ContactsList/ContactsList.styled';
+import {
+  ContactsTitle,
+  ContactsSection,
+  ContactsNumbers,
+} from './ContactsList/ContactsList.styled';
 import { Filter } from './Filter/Filter';
+import data from './data.json';
+import { FormSection, PhoneBookBody } from './PhoneBook/PhoneBook.styled';
 
 export class App extends React.Component {
   state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
+    contacts: data,
     filter: '',
   };
   addContact = newContact => {
@@ -46,15 +47,24 @@ export class App extends React.Component {
     );
   };
 
+  showFormHandler = event => {
+    this.setState({
+      isFormVisible: !this.state.isFormVisible,
+    });
+  };
+
   render() {
     const { contacts } = this.state;
     return (
-      <div>
-        <section>
+      <PhoneBookBody>
+        <FormSection>
           <h1>Phonebook</h1>
-          <PhoneBook onSubmit={this.addContact} />
-        </section>
-        <section>
+          <button onClick={this.showFormHandler} style={{ marginTop: 20 }}>
+            New contact
+          </button>
+          {this.state.isFormVisible && <PhoneBook onSubmit={this.addContact} />}
+        </FormSection>
+        <ContactsSection>
           <ContactsTitle>Contacts</ContactsTitle>
           <Filter onInputHandler={this.filterHandler}></Filter>
           <ContactsList
@@ -62,11 +72,11 @@ export class App extends React.Component {
             onDeleteContact={this.deleteContact}
             filterList={this.showFilterList()}
           />
-          <span>
+          <ContactsNumbers>
             {contacts.length} {contacts.length > 1 ? 'contacts' : 'contact'}
-          </span>
-        </section>
-      </div>
+          </ContactsNumbers>
+        </ContactsSection>
+      </PhoneBookBody>
     );
   }
 }

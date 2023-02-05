@@ -17,7 +17,7 @@ export class ContactsList extends React.Component {
               Delete
             </button>
             <span>{contact.name}</span>
-            <span>{contact.number}</span>
+            <p>{contact.number}</p>
           </li>
         ))}
       </List>
