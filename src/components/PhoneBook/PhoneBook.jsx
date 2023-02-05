@@ -1,5 +1,11 @@
 import React from 'react';
-import { Form } from './PhoneBook.styled';
+import PropTypes from 'prop-types';
+import {
+  Form,
+  ContactFormINput,
+  FormLabel,
+  AddContactFormBtn,
+} from './PhoneBook.styled';
 // import { nanoid } from 'nanoid';
 import shortid from 'shortid';
 
@@ -28,9 +34,9 @@ export class PhoneBook extends React.Component {
   render() {
     return (
       <Form onSubmit={this.contactSubmit}>
-        <label htmlFor="name">
+        <FormLabel htmlFor="name">
           Name
-          <input
+          <ContactFormINput
             type="text"
             placeholder="Contact name"
             name="name"
@@ -39,10 +45,10 @@ export class PhoneBook extends React.Component {
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           />
-        </label>
-        <label htmlFor="number">
+        </FormLabel>
+        <FormLabel htmlFor="number">
           Number
-          <input
+          <ContactFormINput
             type="tel"
             name="number"
             value={this.state.number}
@@ -52,9 +58,13 @@ export class PhoneBook extends React.Component {
             required
             placeholder="Phone number"
           />
-        </label>
-        <button type="submit">Submit</button>
+        </FormLabel>
+        <AddContactFormBtn type="submit">Submit</AddContactFormBtn>
       </Form>
     );
   }
 }
+
+PhoneBook.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

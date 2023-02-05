@@ -1,12 +1,17 @@
 import React from 'react';
 // import { nanoid } from 'nanoid';
+import { IoPersonAdd } from 'react-icons/io5';
+import { BsJournalBookmark } from 'react-icons/bs';
+import { MdNotListedLocation } from 'react-icons/md';
 
 import { PhoneBook } from './PhoneBook/PhoneBook';
+import { AddNewContactBtn, MainTitle } from './PhoneBook/PhoneBook.styled';
 import { ContactsList } from './ContactsList/ContactsList';
 import {
   ContactsTitle,
   ContactsSection,
   ContactsNumbers,
+  NoContactsSpan,
 } from './ContactsList/ContactsList.styled';
 import { Filter } from './Filter/Filter';
 import data from './data.json';
@@ -56,27 +61,50 @@ export class App extends React.Component {
   render() {
     const { contacts } = this.state;
     return (
-      <PhoneBookBody>
-        <FormSection>
-          <h1>Phonebook</h1>
-          <button onClick={this.showFormHandler} style={{ marginTop: 20 }}>
-            New contact
-          </button>
-          {this.state.isFormVisible && <PhoneBook onSubmit={this.addContact} />}
-        </FormSection>
-        <ContactsSection>
-          <ContactsTitle>Contacts</ContactsTitle>
-          <Filter onInputHandler={this.filterHandler}></Filter>
-          <ContactsList
-            contacts={contacts}
-            onDeleteContact={this.deleteContact}
-            filterList={this.showFilterList()}
-          />
-          <ContactsNumbers>
-            {contacts.length} {contacts.length > 1 ? 'contacts' : 'contact'}
-          </ContactsNumbers>
-        </ContactsSection>
-      </PhoneBookBody>
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          color: '#010101',
+        }}
+      >
+        <PhoneBookBody>
+          <MainTitle>
+            Phonebook
+            <BsJournalBookmark />
+          </MainTitle>
+          <AddNewContactBtn onClick={this.showFormHandler}>
+            {this.state.isFormVisible ? 'Close form' : <IoPersonAdd />}
+          </AddNewContactBtn>
+          <FormSection>
+            {this.state.isFormVisible && (
+              <PhoneBook onSubmit={this.addContact} />
+            )}
+          </FormSection>
+          <ContactsSection>
+            <ContactsTitle>Contacts</ContactsTitle>
+            <Filter onInputHandler={this.filterHandler}></Filter>
+            {this.state.contacts.length === 0 ? (
+              <NoContactsSpan>
+                <MdNotListedLocation />
+                There're no contacts
+              </NoContactsSpan>
+            ) : (
+              <ContactsList
+                contacts={contacts}
+                onDeleteContact={this.deleteContact}
+                filterList={this.showFilterList()}
+              />
+            )}
+            <ContactsNumbers>
+              {contacts.length} {contacts.length > 1 ? 'contacts' : 'contact'}
+            </ContactsNumbers>
+          </ContactsSection>
+        </PhoneBookBody>
+      </div>
     );
   }
 }
